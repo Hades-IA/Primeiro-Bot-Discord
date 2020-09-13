@@ -1,0 +1,23 @@
+{
+  "name": "first_bot_discord",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Hades-IA/Primeiro-Bot-Discord.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Hades-IA/Primeiro-Bot-Discord/issues"
+  },
+  "homepage": "https://github.com/Hades-IA/Primeiro-Bot-Discord#readme",
+  "dependencies": {
+    "discord.js": "^12.3.1"
+  }
+}
