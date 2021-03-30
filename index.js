@@ -16,6 +16,9 @@ const T20MagiasData = require("./database/json/T20Magia.json");
 function EmojiGet(id) {
     return client.emojis.cache.get(id);
 }
+client.on('ready', async message => {
+    console.log("oi")
+})
 client.on('message', async message => {
     if (!message.guild) return;
 
