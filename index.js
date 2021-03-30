@@ -18,13 +18,15 @@ function EmojiGet(id) {
 }
 
 client.on('message', async message => {
-    console.log("oi")
+
     if (!message.guild) return;
 
     const msgContent = message.content.toLocaleLowerCase();
 
 
     if (msgContent.split(" ")[0] === prefix + "t20") {
+
+
         if (msgContent.split(" ")[1] === "-m") {
             const magias = T20MagiasData.magialist;
             var word = msgContent.split("-m")[1].replace(/[^a-zA-Z ]| /g, "").toLowerCase();

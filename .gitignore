@@ -31,6 +31,7 @@ coverage
 # Bower dependency directory (https://bower.io/)
 bower_components
 
+
 # node-waf configuration
 .lock-wscript
 
@@ -41,7 +42,7 @@ build/Release
 node_modules/
 jspm_packages/
 keys/
-
+.zip
 # TypeScript v1 declaration files
 typings/
 
@@ -103,3 +104,5 @@ dist
 
 # TernJS port file
 .tern-port
+database.zip
+first_bot_Discord.zip
