@@ -18,6 +18,11 @@
   },
   "homepage": "https://github.com/Hades-IA/Primeiro-Bot-Discord#readme",
   "dependencies": {
-    "discord.js": "^12.3.1"
-  }
+    "discord.js": "^12.3.1",
+    "dotenv": "^8.2.0",
+    "knex": "^0.21.8",
+    "matchmaking": "^0.4.32",
+    "sqlite3": "^5.0.0"
+  },
+  "devDependencies": {}
 }
