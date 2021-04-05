@@ -30,13 +30,16 @@ client.on('message', async message => {
         if (msgContent.split(" ")[1] === "-m") {
             const magias = T20MagiasData.magialist;
             var word = msgContent.split("-m")[1].replace(/[^a-zA-Z ]| /g, "").toLowerCase();
-            let regExp = new RegExp(word, "gi");
+            //let regExp = new RegExp(word, "gi");
             let result = magias.filter(magia => {
                 let magiaNome = magia.meta.nome.replace(/[^a-zA-Z ]| /g, "").toLowerCase();
-                let res = magiaNome.match(regExp) || [];
-                return res.length > 0;
+                let res = magiaNome.indexOf(word);
+                return res === 0;
             });
-            if (result.length < 1) return;
+            if (result.length === 0) {
+                message.channel.send("nenhuma magia encontrada");
+                return;
+            }
             let meta = `\r\nEscola: ${result[0].meta.escola}\r\nCíclo: ${result[0].meta.ciclo}\r\nExecução: ${result[0].meta.execucao}\r\nAlcance: ${result[0].meta.alcance}\r\nAlvo: ${result[0].meta.alvo}\r\nDuração: ${result[0].meta.duracao}\r\nResitência: ${result[0].meta.resitencia}\r\n`;
 
 
@@ -57,14 +60,17 @@ client.on('message', async message => {
     if (msgContent.split(" ")[0] === prefix + "carta") {
         const cards = cardsData;
         var word = msgContent.split(prefix + "carta")[1].replace(/[^a-zA-Z ]| /g, "").toLowerCase();
-        let regExp = new RegExp(word, "gi");
+        //   let regExp = new RegExp(word, "gi");
 
         let cardFilter = cards.filter(card => {
             let cardName = card.name.replace(/[^a-zA-Z ]| /g, "").toLowerCase();
-            let res = cardName.match(regExp) || [];
-            return res.length > 0;
+            let res = cardName.indexOf(word);
+            return res === 0;
         });
-        if (cardFilter.length < 1) return;
+        if (cardFilter.length === 0) {
+            message.channel.send("nenhuma carta encontrada");
+            return;
+        }
         let cardMap = cardFilter.map(data => {
             return {
                 name: `\r\n${data.name}`,
@@ -188,7 +194,7 @@ ${Emoji}${Emoji}${Emoji}
         return;
     };
     if (msgContent[0] === prefix) {
-        message.channel.send("nenhum comando encontrado chefia. se não sabe os comandos, da um !ajuda comandos");
+       
         return;
     }
 });

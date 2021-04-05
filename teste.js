@@ -26,22 +26,24 @@ function test(msgContent) {
   */
     const magias = T20MagiasData.magialist;
     var word = msgContent.split("-magia")[1].replace(/[^a-zA-Z ]| /g, "").toLowerCase();
-    let regExp = new RegExp(word, "gi");
+
     let result = magias.filter(magia => {
         let magiaNome = magia.meta.nome.replace(/[^a-zA-Z ]| /g, "").toLowerCase();
-        let res = magiaNome.match(regExp) || [];
-        return res.length > 0;
+        let res = magiaNome.indexOf(word);
+        return res === 0;
     });
-    console.log(regExp)
-    if (result.length < 1) return;
-    let meta = `Meta\r\nEscola:${result[0].meta.escola}\r\nCíclo::${result[0].meta.ciclo}\r\nExecução:${result[0].meta.execucao}\r\nAlcance:${result[0].meta.alcance}\r\nAlvo:${result[0].meta.alvo}\r\nDuração:${result[0].meta.duracao}\r\nResitência:${result[0].meta.resitencia}\r\n`;
+
+
+    if (result.length === 0) { console.log("nenhuma magia encontrada"); return; }
+    let meta = `Meta\r\nEscola:${result[0].meta.escola}\r\nCíclo:${result[0].meta.ciclo}\r\nExecução:${result[0].meta.execucao}\r\nAlcance:${result[0].meta.alcance}\r\nAlvo:${result[0].meta.alvo}\r\nDuração:${result[0].meta.duracao}\r\nResitência:${result[0].meta.resitencia}\r\n`;
     console.log(result[0].meta.nome + "\r\n", "\r\n" + meta, `\r\nDescrição\r\n${result[0].desc}\r\n`, result[0].custo);
     return;
 
 
 };
 
-test("!t20 -magia Abençoar Alimentos");
+
+test("!t20 -magia z");
 
 function roller(number) {
     for (let i = 0; i < number; i++) {
