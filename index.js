@@ -200,6 +200,6 @@ ${Emoji}${Emoji}${Emoji}
 });
 
 
-
+console.log('oi')
 
 client.login(process.env.BOT_TOKEN);
