@@ -9,7 +9,7 @@ const Arithmetic = require('./util/Arithmetics');
 const Reader = new Read();
 const cardsData = require("./database/json/cardsdata.json");
 const T20MagiasData = require("./database/json/T20Magia.json");
-console.log('oi')
+console.log('oi');
 
 
 // td n numerico replace(/[^0-9]/gi, '')
@@ -200,6 +200,6 @@ ${Emoji}${Emoji}${Emoji}
 });
 
 
-console.log('oi')
+console.log('oi');
 
 client.login(process.env.BOT_TOKEN);
