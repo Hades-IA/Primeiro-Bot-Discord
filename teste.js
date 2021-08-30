@@ -36,14 +36,19 @@ function test(msgContent) {
 
     if (result.length === 0) { console.log("nenhuma magia encontrada"); return; }
     let meta = `Meta\r\nEscola:${result[0].meta.escola}\r\nCíclo:${result[0].meta.ciclo}\r\nExecução:${result[0].meta.execucao}\r\nAlcance:${result[0].meta.alcance}\r\nAlvo:${result[0].meta.alvo}\r\nDuração:${result[0].meta.duracao}\r\nResitência:${result[0].meta.resitencia}\r\n`;
-    console.log(result[0].meta.nome + "\r\n", "\r\n" + meta, `\r\nDescrição\r\n${result[0].desc}\r\n`, result[0].custo);
+    console.log(result[0].meta.nome + "\r\n", "\r\n" + meta, `\r\nDescrição\r\n${result[0].desc}\r\n`);
+    if(result[0].continue.length > 0){
+        result[0].continue.forEach(data =>{
+            console.log(`${data.nome}${data.content}`)
+        })
+    }
     return;
 
 
 };
 
 
-test("!t20 -magia z");
+test("!t20 -magia aca");
 
 function roller(number) {
     for (let i = 0; i < number; i++) {
@@ -53,4 +58,14 @@ function roller(number) {
     }
     return;
 }
-roller(2)
+function cardType(){
+    const cards = cardsMeta;
+    const cardslist = cards.filter(card =>{
+       const types =card.cardtype.filter(type => type.title === 'chieftain');
+        return types.length > 0;
+    }
+    );
+    console.log(cardslist.length);
+}
+// cardType()
+// roller(2)

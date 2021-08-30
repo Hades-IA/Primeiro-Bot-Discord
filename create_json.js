@@ -18,7 +18,8 @@ async function CriarJSON() {
                     resitencia: ""
                 },
                 desc: `Você purifica e abençoa uma porção de comida ou dose de bebida. Isso torna um alimento sujo, estragado ou envenenado próprio para consumo. Além disso, se for consumido até o final da duração, o alimento oferece 5 PV temporários ou 1 PM temporário (além de quaisquer bônus que já oferecesse). Bônus de alimentação duram um dia e cada personagem só pode receber um bônus de alimentação por dia.`,
-                custo: `\r\nTruque: o alimento é purificado (não causa nenhum efeito nocivo se estava estragado ou envenenado), mas não oferece bônus ao ser consumido.\r\n+1 PM: aumenta o número de alvos em +1.\r\n+1 PM: muda a duração para permanente, o alvo para 1 frasco com água e adiciona componente material (pó de prata no valor de T$ 5). Em vez do normal, cria um frasco de água benta.\r\n`
+                
+                continue:[ {nome:'Custo', content:'\r\nTruque: o alimento é purificado (não causa nenhum efeito nocivo se estava estragado ou envenenado), mas não oferece bônus ao ser consumido.\r\n+1 PM: aumenta o número de alvos em +1.\r\n+1 PM: muda a duração para permanente, o alvo para 1 frasco com água e adiciona componente material (pó de prata no valor de T$ 5). Em vez do normal, cria um frasco de água benta.\r\n'}]
             },
             {
                 meta: {
@@ -32,7 +33,7 @@ async function CriarJSON() {
                     resitencia: "Vontade anula"
                 },
                 desc: `O animal fica prestativo em relação a você. Ele não fica sob seu controle, mas percebe suas palavras e ações da maneira mais favorável possível. Você recebe +10 nos testes de Adestramento e Diplomacia que fizer contra o animal.\r\nUm alvo hostil ou que esteja envolvido em um combate recebe +5 em seu teste de resistência. Se você ou seus aliados tomarem qualquer ação hostil contra o alvo, a magia é anulada e ele retorna à atitude que tinha antes (ou piorada, de acordo com o mestre). Se tratar bem o alvo, a atitude pode permanecer mesmo após o término da magia.`,
-                custo: `\r\n+1 PM: muda o alcance para médio.\r\n+1 PM: muda o alvo para 1 monstro ou espírito com Inteligência 1, 2 ou nula.\r\n+2 PM: aumenta o número de alvos em +1.\r\n+5 PM: muda o alvo para 1 monstro ou espírito. Requer 3º círculo.`
+                continue:[ {nome:'Custo', content:`\r\n+1 PM: muda o alcance para médio.\r\n+1 PM: muda o alvo para 1 monstro ou espírito com Inteligência 1, 2 ou nula.\r\n+2 PM: aumenta o número de alvos em +1.\r\n+5 PM: muda o alvo para 1 monstro ou espírito. Requer 3º círculo.`}] 
             },
             {
                 meta: {
@@ -2783,11 +2784,1268 @@ async function CriarJSON() {
 
         ]
     };
-    await CriarJSON.Escrever("./database/json/T20Magia.json", Magiadata);
-    console.log("json criado")
+    const Poderesdata = {
+        podereslist: [
+            {
+                nome: "Acuidade com Arma",
+                classe: "Combate",
+                descrição: `Quando usa uma arma leve de corpo a corpo ou uma arma de arremesso, você pode usar seu modificador de Destreza em vez de Força nos testes de ataque e rolagens de dano. Pré-requisito: Des 13.`
+            },
+            {
+                nome: "Arma Secundária Grande",
+                classe: "Combate",
+                descrição: `Você pode usar duas armas de uma mão com o poder Estilo de Duas Armas. Pré-requisito: Estilo de Duas Armas.`
+            },
+            {
+                nome: "Arremesso Potente",
+                classe: "Combate",
+                descrição: `Quando usa uma arma de arremesso, você pode usar seu modificador de Força em vez de Destreza nos testes de ataque. Se você possuir o poder Ataque Poderoso, poderá usá-lo com armas de arremesso. Pré-requisitos: For 13, Estilo de Arremesso.`
+            },
+            {
+                nome: "Ataque Pesado",
+                classe: "Combate",
+                descrição: `Quando faz um ataque corpo a corpo com uma arma de duas mãos, você pode pagar 1 PM. Se fizer isso e acertar o ataque, além do dano você faz uma manobra derrubar ou empurrar contra o alvo como uma ação livre (use o resultado do ataque como o teste de manobra). Pré-requisito: Estilo de Duas Mãos.`
+            },
+            {
+                nome: "Ataque Poderoso",
+                classe: "Combate",
+                descrição: `Declare que está usando este poder antes de fazer um ataque corpo a corpo. Você sofre –2 no teste de ataque, mas recebe +5 na rolagem de dano. Pré-requisito: For 13.`
+            },
+            {
+                nome: "Ataque Preciso",
+                classe: "Combate",
+                descrição: `Se estiver usando uma arma corpo a corpo em uma das mãos e nada na outra, você recebe +2 na margem de ameaça e +1 no multiplicador de crítico.Pré-requisito: Estilo de Uma Arma.`
+            },
+            {
+                nome: "Bloqueio com Escudo",
+                classe: "Combate",
+                descrição: `Quando é atingido por um ataque, habilidade ou magia, você pode gastar 1 PM para receber resistência a dano contra este ataque igual ao bônus na Defesa que seu escudo fornece. Você só pode usar este poder se estiver usando um escudo. Pré-requisito: Estilo de Arma e Escudo.`
+            },
+            {
+                nome: "Carga de Cavalaria",
+                classe: "Combate",
+                descrição: `Quando faz uma investida montada, você causa +2d8 pontos de dano. Além disso, pode continuar se movendo depois do ataque. Você deve se mover em linha reta e seu movimento máximo ainda é o dobro do seu deslocamento. Pré-requisito: Ginete.`
+            },
+            {
+                nome: "Combate Defensivo",
+                classe: "Combate",
+                descrição: `Quando usa a ação atacar, você pode usar este poder. Se fizer isso, até seu próximo turno, sofre –2 em todos os testes de ataque, mas recebe +5 na Defesa. Pré-requisito: Int 13.`
+            },
+            {
+                nome: "Derrubar Aprimorado",
+                classe: "Combate",
+                descrição: `Você recebe +2 em testes de ataque para derrubar. Quando derruba uma criatura com essa manobra, pode gastar 1 PM para fazer um ataque extra contra ela. Pré-requisito: Combate Defensivo.`
+            },
+            {
+                nome: "Desarmar Aprimorado",
+                classe: "Combate",
+                descrição: `Você recebe +2 em testes de ataque para desarmar. Quando desarma uma criatura, pode gastar 1 PM para arremessar a arma dela para longe. Para definir onde a arma cai, role 1d8 para a direção (sendo “1” diretamente à sua frente, “2” à frente e à direita e assim por diante, em sentido horário) e 1d6 para a distância (medida em quadrados de 1,5m a partir da criatura desarmada). Pré-requisito: Combate Defensivo.`
+            },
+            {
+                nome: "Disparo Preciso",
+                classe: "Combate",
+                descrição: `Você pode fazer ataques à distância contra oponentes envolvidos em combate corpo a corpo sem sofrer a penalidade padrão de –5 no teste de ataque. Pré-requisito: Estilo de Disparo ou Estilo de Arremesso.`
+            },
+            {
+                nome: "Disparo Rápido",
+                classe: "Combate",
+                descrição: `Se estiver usando uma arma de ataque à distância e gastar uma ação completa para atacar, você pode fazer um ataque adicional com ela (se puder recarregá-la como ação livre). Se fizer isso, sofre –2 em todos os testes de ataque até o seu próximo turno. Pré-requisito: Des 13, Estilo de Disparo ou Estilo de Arremesso.`
+            },
+            {
+                nome: "Empunhadura Poderosa",
+                classe: "Combate",
+                descrição: `Ao usar uma arma feita para uma categoria de tamanho maior que a sua, a penalidade que você sofre nos testes de ataque diminui para –2 (normalmente, uma criatura que use uma arma feita para uma categoria de tamanho maior sofre uma penalidade de –5 nos testes de ataque). Pré-requisito: For 17.`
+            },
+            {
+                nome: "Encouraçado",
+                classe: "Combate",
+                descrição: `Ao usar uma arma feita para uma categoria de tamanho maior que a sua, a penalidade que você sofre nos testes de ataque diminui para –2 (normalmente, uma criatura que use uma arma feita para uma categoria de tamanho maior sofre uma penalidade de –5 nos testes de ataque). Pré-requisito: For 17.`
+            },
+            {
+                nome: "Esquiva",
+                classe: "Combate",
+                descrição: `Você recebe +2 em Defesa e Reflexos. Pré-requisito: Des 13.`
+            },
+            {
+                nome: "Estilo de Arma e Escudo",
+                classe: "Combate",
+                descrição: `Se você estiver usando um escudo, o bônus na Defesa que ele fornece aumenta em +2. Pré-requisitos: treinado em Luta, proficiência com escudos.`
+            },
+            {
+                nome: "Estilo de Arremesso",
+                classe: "Combate",
+                descrição: `Você pode sacar armas de arremesso como uma ação livre e recebe +2 nas rolagens de dano com elas. Pré-requisito: treinado em Pontaria.`
+            },
+            {
+                nome: "Estilo de Disparo",
+                classe: "Combate",
+                descrição: `Se estiver usando uma arma de disparo, você soma o bônus de Destreza nas rolagens de dano. Pré-requisito: treinado em Pontaria.`
+            },
+            {
+                nome: "Estilo de Duas Armas",
+                classe: "Combate",
+                descrição: `Se estiver usando duas armas (e pelo menos uma delas for leve) e fizer a ação atacar, você pode fazer dois ataques, um com cada arma. Se fizer isso, sofre –2 em todos os testes de ataque até o seu próximo turno. Se você possuir Ambidestria, não sofre essa penalidade. Pré-requisito: Des 15, treinado em Luta.`
+            },
+            {
+                nome: "Estilo de Duas Mãos",
+                classe: "Combate",
+                descrição: `Se estiver usando uma arma corpo a corpo com as duas mãos, você recebe +5 nas rolagens de dano. Este poder não pode ser usado com armas leves. Pré-requisitos: For 15, Treinado em Luta.`
+            },
+            {
+                nome: "Estilo de Uma Arma",
+                classe: "Combate",
+                descrição: `Se estiver usando uma arma corpo a corpo em uma das mãos e nada na outra, você recebe +2 na Defesa e nos testes de ataque com essa arma (exceto ataques desarmados). Pré-requisito: treinado em Luta.`
+            },
+            {
+                nome: "Estilo Desarmado",
+                classe: "Combate",
+                descrição: `Seus ataques desarmados causam 1d6 pontos de dano e podem causar dano letal ou não letal (sem penalidades). Pré-requisito: treinado em Luta.`
+            },
+            {
+                nome: "Fanático",
+                classe: "Combate",
+                descrição: `Seu deslocamento não é reduzido por usar armaduras pesadas. Pré-requisitos: 12º nível de personagem, Encouraçado.`
+            },
+            {
+                nome: "Finta Aprimorada",
+                classe: "Combate",
+                descrição: `Você recebe +2 em testes de Enganação para fintar e pode fintar como uma ação de movimento. Pré-requisitos: treinado em Enganação e Luta.`
+            },
+            {
+                nome: "Foco em Arma",
+                classe: "Combate",
+                descrição: `Escolha uma arma. Você recebe +2 em testes de ataque com essa arma. Você pode escolher este poder outras vezes para armas diferentes. Pré-requisito: proficiência com a arma.`
+            },
+            {
+                nome: "Ginete",
+                classe: "Combate",
+                descrição: `Você passa automaticamente em testes de Cavalgar para não cair da montaria quando sofre dano. Além disso, não sofre penalidades para atacar à distância ou lançar magias quando montado. Pré-requisito: treinado em Cavalgar.`
+            },
+            {
+                nome: "Inexpugnável",
+                classe: "Combate",
+                descrição: `Se estiver usando uma armadura pesada, você recebe +2 em todos os testes de resistência. Pré requisitos: Encouraçado, 6º nível de personagem.`
+            },
+            {
+                nome: "Mira Apurada",
+                classe: "Combate",
+                descrição: `Você pode gastar uma ação de movimento para mirar. Se fizer isso, recebe +2 em testes de ataque e na margem de ameaça com ataques à distância até o fim do turno. Pré-requisitos: Sab 13, Disparo Preciso.`
+            },
+            {
+                nome: "Presença Aterradora",
+                classe: "Combate",
+                descrição: `Você pode gastar uma ação padrão e 1PM para assustar todas as criaturas a sua escolha em alcance curto. Veja a perícia Intimidação para as regras de assustar. Pré-requisito: treinado em Intimidação.`
+            },
+            {
+                nome: "Proficiência",
+                classe: "Combate",
+                descrição: `Escolha uma proficiência: armas marciais, armas de fogo, armaduras pesadas ou escudos (se for proficiente em armas marciais, você também pode escolher armas exóticas). Você recebe essa proficiência. Você pode escolher este poder outras vezes para proficiências diferentes.`
+            },
+            {
+                nome: "Quebrar Aprimorado",
+                classe: "Combate",
+                descrição: `Você recebe +2 em testes de ataque para quebrar. Quando reduz os PV de uma arma para 0 ou menos, você pode gastar 1 PM para realizar um ataque extra contra o usuário dela. O ataque adicional usa os mesmos valores de ataque e dano, mas os dados devem ser rolados novamente. Pré-requisito: Ataque Poderoso.`
+            },
+            {
+                nome: "Reflexos de Combate",
+                classe: "Combate",
+                descrição: `Você ganha uma ação de movimento extra no seu primeiro turno de cada combate. Pré-requisito: Des 13.`
+            },
+            {
+                nome: "Saque Rápido",
+                classe: "Combate",
+                descrição: `Você recebe +2 em Iniciativa e pode sacar ou guardar itens como uma ação livre (em vez de ação de movimento). Além disso, a ação que você gasta para recarregar uma arma de disparo diminui em uma categoria (ação completa para padrão, padrão para movimento, movimento para livre). Pré-requisito: treinado em Iniciativa.`
+            },
+            {
+                nome: "Trespassar",
+                classe: "Combate",
+                descrição: `Quando você faz um ataque corpo a corpo e reduz os pontos de vida do alvo para 0 ou menos, pode gastar 1 PM para fazer um ataque adicional contra outra criatura dentro do seu alcance. O ataque adicional usa os mesmos valores de ataque e dano, mas os dados devem ser rolados novamente. Pré requisito: Ataque Poderoso.`
+            },
+            {
+                nome: "Vitalidade",
+                classe: "Combate",
+                descrição: `Você recebe +1 PV por nível de personagem e +2 em Fortitude. Pré-requisito: Con 13.`
+            },
+            {
+                nome: "Acrobático",
+                classe: "Destino",
+                descrição: `Você pode usar seu modificador de Destreza em vez de Força em testes de Atletismo. Além disso, terreno difícil não reduz seu deslocamento nem o impede de realizar investidas. Pré-requisito: Des 15.`
+            },
+            {
+                nome: "Ao Sabor do Destino",
+                classe: "Destino",
+                descrição: `Você recebe diversos benefícios, de acordo com seu nível de personagem e a tabela abaixo. pagina 135`
+            },
+            {
+                nome: "Aparência Inofensiva",
+                classe: "Destino",
+                descrição: `A primeira criatura inteligente (Int 3 ou mais) que atacar você em uma cena deve fazer um teste de Vontade (CD Car). Se falhar, perderá sua ação. Este poder só funciona uma vez por cena; independentemente de a criatura falhar ou não no teste, poderá atacá-lo nas rodadas seguintes. Pré-requisito: Car 13.`
+            },
+            {
+                nome: "Atlético",
+                classe: "Destino",
+                descrição: `Você recebe +2 em Atletismo e +3m em seu deslocamento. Pré-requisito: For 15.`
+            },
+            {
+                nome: "Atraente",
+                classe: "Destino",
+                descrição: `Você recebe +2 em testes de perícias baseadas em Carisma contra criaturas que possam se sentir fisicamente atraídas por você. Pré-requisito: Car 13.`
+            },
+            {
+                nome: "Comandar",
+                classe: "Destino",
+                descrição: `Você pode gastar uma ação de movimento e 1 PM para gritar ordens para seus aliados em alcance médio. Eles recebem +1 em testes de perícia até o fim da cena. Pré-requisito: Car 13.`
+            },
+            {
+                nome: "Foco em Perícia",
+                classe: "Destino",
+                descrição: `Escolha uma perícia. Quando faz um teste dessa perícia, você pode gastar 1 PM para rolar dois dados e usar o melhor resultado. Você pode escolher este poder outras vezes para perícias diferentes. Este poder não pode ser aplicado em Luta e Pontaria (mas veja Foco em Arma). Pré-requisito: treinado na perícia escolhida.`
+            },
+            {
+                nome: "Investigador",
+                classe: "Destino",
+                descrição: `Você recebe +2 em Investigação e soma seu bônus de Inteligência em Intuição. Pré-requisito: Int 13.`
+            },
+            {
+                nome: "Lobo Solitário",
+                classe: "Destino",
+                descrição: `Você recebe +1 em testes de perícia e Defesa se estiver sem nenhum aliado em alcance curto. Você não sofre penalidade por usar a perícia Cura em si mesmo.`
+            },
+            {
+                nome: "Medicina",
+                classe: "Destino",
+                descrição: `Você pode gastar uma ação completa para fazer um teste de Cura (CD 15) em uma criatura. Se você passar, ela recupera 1d6 PV, mais 1d6 para cada 5 pontos pelos quais o resultado do teste exceder a CD (2d6 com um resultado 20, 3d6 com um resultado 25 e assim por diante). Você só pode usar este poder uma vez por dia numa mesma criatura. Pré-requisitos:Sab 13, treinado em Cura.`
+            },
+            {
+                nome: "Parceiro",
+                classe: "Destino",
+                descrição: `Você possui um parceiro animal ou humanoide que o acompanha em aventuras. Escolha os detalhes\ndele, como nome, aparência e personalidade. Em termos de jogo, é um aliado iniciante de um tipo a sua escolha (veja a página 246). O parceiro obedece às suas ordens e se arrisca para ajudá-lo. Entretanto, se for maltratado, pode parar de segui-lo (de acordo com o mestre). Se perder seu parceiro, você recebe outro no início da próxima aventura. Pré-requisitos: treinado em Adestramento (parceiro animal) ou Diplomacia (parceiro humanoide), 6º nível de personagem.`
+            },
+            {
+                nome: "Sentidos Aguçados",
+                classe: "Destino",
+                descrição: `Você recebe +2 em Percepção, não fica desprevenido contra inimigos que não possa ver e, sempre que erra um ataque devido a camuflagem ou camuflagem total, pode rolar mais uma vez o dado da chance de falha. Pré-requisitos: Sab 13, treinado em Percepção.`
+            },
+            {
+                nome: "Sortudo",
+                classe: "Destino",
+                descrição: `Você pode gastar 3 PM para rolar novamente um teste recém realizado (apenas uma vez por teste).`
+            },
+            {
+                nome: "Surto Heroico",
+                classe: "Destino",
+                descrição: `Uma vez por rodada, você pode gastar 5 PM para realizar uma ação padrão ou de movimento adicional.`
+            },
+            {
+                nome: "Torcida",
+                classe: "Destino",
+                descrição: `Você recebe +2 em testes de perícia e Defesa quando tem a torcida a seu favor. Entenda-se por “torcida” qualquer número de criaturas inteligentes em alcance médio que não esteja realizando nenhuma ação além de torcer por você. Pré-requisito: Car 13`
+            },
+            {
+                nome: "Treinamento em Perícia",
+                classe: "Destino",
+                descrição: `Você se torna treinado em uma perícia a sua escolha. Você pode escolher este poder outras vezes para perícias diferentes.`
+            },
+            {
+                nome: "Venefício",
+                classe: "Destino",
+                descrição: `Quando usa um veneno, você não corre risco de se envenenar acidentalmente. Além disso, a CD para resistir aos seus venenos aumenta em +2. Pré-requisito: treinado em Ofício (alquimia).`
+            },
+            {
+                nome: "Vontade de Ferro",
+                classe: "Destino",
+                descrição: `Você recebe +1 PM para cada dois níveis de personagem e +2 em Vontade. Pré-requisito: Sab 13.`
+            },
+            {
+                nome: "Celebrar Ritual",
+                classe: "Magia",
+                descrição: `Você pode lançar magias na forma de rituais. Isso dobra seu limite de PM, mas muda a execução para 1 hora (ou o dobro, o que for maior). Você gasta T$ 10 em incensos, oferendas etc. por PM do custo total. Após esse gasto, paga apenas metade do custo em PM da magia (após aplicar quaisquer outros efeitos de redução). Assim, um arcanista de 8º nível pode lançar uma magia de 16 PM gastando T$ 160 e 8 PM. Pré-requisitos: treinado em Misticismo ou Religião, 8º nível de personagem.`
+            },
+            {
+                nome: "Escrever Pergaminho",
+                classe: "Magia",
+                descrição: `Você pode usar a perícia Ofício (escriba) para fabricar pergaminhos com magias que conheça. Veja a página 121 para a regra de fabricar itens e a página 327 para a regra de pergaminhos. De acordo com o mestre, você pode usar outros objetos similares, como runas, tabuletas de argila etc. Pré-requisitos: habilidade de classe Magias, treinado em Ofício (escriba).`
+            },
+            {
+                nome: "Foco em Magia",
+                classe: "Magia",
+                descrição: `Escolha uma magia. Seu custo diminui em –1 PM (cumulativo com outras reduções de custo). Você pode escolher este poder outras vezes para magias diferentes.`
+            },
+            {
+                nome: "Magia Acelerada",
+                classe: "Magia",
+                descrição: `Muda a execução da magia para ação livre. Você só pode aplicar este aprimoramento em magias com execução de movimento, padrão ou completa e só pode lançar uma magia como ação livre por rodada. Custo: +4 PM. Pré-requisito: lançar magias de 2º círculo.`
+            },
+            {
+                nome: "Magia Ampliada",
+                classe: "Magia",
+                descrição: `Aumenta o alcance da magia em um passo (de curto para médio, de médio para longo) ou dobra a área de efeito da magia. Por exemplo, uma Bola de Fogo ampliada tem seu alcance aumentado para longo ou sua área aumentada para 12m de raio. Custo: +2 PM.`
+            },
+            {
+                nome: "Magia Discreta",
+                classe: "Magia",
+                descrição: `Você lança a magia sem gesticular e falar, usando apenas concentração. Isso permite lançar magias com as mãos presas, amordaçado etc. Também permite lançar magias arcanas usando armadura sem teste de Misticismo. Outros personagens só percebem que você lançou uma magia se passarem num teste de Misticismo (CD 20). Custo: +2 PM.`
+            },
+            {
+                nome: "Magia Ilimitada",
+                classe: "Magia",
+                descrição: `Você soma seu modificador do atributo-chave no limite de PM que pode gastar numa magia. Por exemplo, um mago de 5º nível com Int 18 (+4) e este poder pode gastar até 9 PM em cada magia.`
+            },
+            {
+                nome: "Preparar Poção",
+                classe: "Magia",
+                descrição: `Você pode usar a perícia Ofício (alquimia) para fabricar poções com magias que conheça de 1º e 2º círculos. Veja a página 121 para a regra de fabricar itens e a página 327 para a regra de poções. Pré-requisitos: Habilidade de classe Magias, treinado em Ofício (alquimia).`
+            },
+            {
+                nome: "Afinidade co a Tormenta",
+                classe: "Concedidos",
+                descrição: `Você recebe +10 em testes de resistência contra efeitos da Tormenta e de suas criaturas.`
+            },
+            {
+                nome: "Anfíbio",
+                classe: "Concedidos",
+                descrição: `Você pode respirar embaixo d’água e adquire deslocamento de natação igual a seu deslocamento terrestre.`
+            },
+            {
+                nome: "Armas da ambição",
+                classe: "Concedidos",
+                descrição: `Você recebe +1 em testes de ataque com armas nas quais é proficiente.`
+            },
+            {
+                nome: "Arsenal das profundezas",
+                classe: "Concedidos",
+                descrição: `Você recebe +2 nas rolagens de dano com azagaias, lanças e tridentes.`
+            },
+            {
+                nome: "Astúcia da Serpente",
+                classe: "Concedidos",
+                descrição: `Você recebe +2 em Enganação e Intuição.`
+            },
+            {
+                nome: "Ataque Piedoso",
+                classe: "Concedidos",
+                descrição: `Você pode usar armas de corpo a corpo para causar dano não letal sem sofrer a penalidade de –5 no teste de ataque.`
+            },
+            {
+                nome: "Aura de Medo",
+                classe: "Concedidos",
+                descrição: `Você pode gastar 2 PM para gerar uma aura de medo com alcance curto e duração até o fim da cena. Todos os inimigos que entrem na aura devem fazer um teste de Vontade (CD Car) ou ficam abalados até o fim da cena. Uma criatura que passe no teste de Vontade fica imune a esta habilidade por um dia.`
+            },
+            {
+                nome: "Aura de Paz",
+                classe: "Concedidos",
+                descrição: `Você pode gastar 2 PM para gerar uma aura de paz com alcance curto e duração de uma cena. Qualquer inimigo dentro da aura que tente fazer uma ação hostil contra você deve fazer um teste de Vontade (CD Car). Se falhar, perderá sua ação. Se passar, fica imune a esta habilidade por um dia.`
+            },
+            {
+                nome: "Aura Restauradora",
+                classe: "Concedidos",
+                descrição: `Você e seus aliados em alcance curto recuperam duas vezes mais pontos de vida por descanso.`
+            },
+            {
+                nome: "Bênção do Mana",
+                classe: "Concedidos",
+                descrição: `Você recebe +3 pontos de mana.`
+            },
+            {
+                nome: "Carícia Sombria",
+                classe: "Concedidos",
+                descrição: `Você pode gastar 1 PM e uma ação padrão para cobrir sua mão com energia negativa e tocar uma criatura em alcance corpo a corpo. A criatura sofre 2d6 pontos de dano de trevas (Fortitude CD Sab reduz à metade) e você recupera PV iguais à metade do dano causado. Você pode aprender Toque Vampírico como uma magia divina. Se fizer isso, o custo dela diminui em –1 PM.`
+            },
+            {
+                nome: "Centelha Mágica",
+                classe: "Concedidos",
+                descrição: `Escolha uma magia arcana ou divina de 1º círculo. Você aprende e pode lançar essa magia. Pré-requisito: não possuir a habilidade de classe Magias.`
+            },
+            {
+                nome: "Conhecimento Enciclopédico",
+                classe: "Concedidos",
+                descrição: `Você se torna treinado em duas perícias baseadas em Inteligência a sua escolha.`
+            },
+            {
+                nome: "Conjurar Arma",
+                classe: "Concedidos",
+                descrição: `Você pode gastar 1 PM para invocar uma arma corpo a corpo ou de arremesso com a qual seja proficiente. A arma surge em sua mão, recebe um bônus de +1 em testes de ataque e rolagens de dano e dura pela cena. Você não pode criar armas de disparo, mas pode criar 20 projéteis (flechas, virotes etc.).`
+            },
+            {
+                nome: "Coragem Total",
+                classe: "Concedidos",
+                descrição: `Você é imune a efeitos de medo, mágicos ou não. Este poder não elimina fobias raciais (como o medo de altura dos minotauros).`
+            },
+            {
+                nome: "Cura Gentil ",
+                classe: "Concedidos",
+                descrição: `Você adiciona seu bônus de Carisma (mínimo +1) aos PV restaurados por suas magias de cura.`
+            },
+            {
+                nome: "Curandeira Perfeita",
+                classe: "Concedidos",
+                descrição: `Você sempre pode escolher 10 em testes de Cura. Além disso, pode usar essa perícia mesmo sem um kit de medicamentos. Se usar o kit, recebe +2 no teste de Cura.`
+            },
+            {
+                nome: "Dedo Verde",
+                classe: "Concedidos",
+                descrição: `Você aprende e pode lançar Controlar Plantas.`
+            },
+            {
+                nome: "Descanso Natural",
+                classe: "Concedidos",
+                descrição: `Para você, dormir ao relento conta como uma estalagem confortável.`
+            },
+            {
+                nome: "Dom da Imortalidade",
+                classe: "Concedidos",
+                descrição: `Você é imortal. Sempre que morre, não importando o motivo, volta à vida após 3d6 dias. Você não perde níveis de experiência. Apenas paladinos podem escolher este poder. Um personagem pode ter Dom da Imortalidade ou Dom da Ressurreição, mas não ambos. `
+            },
+            {
+                nome: "Dom da Profecia",
+                classe: "Concedidos",
+                descrição: `Você pode lançar Augúrio. Você também pode gastar 2 PM para receber +2 em um teste.`
+            },
+            {
+                nome: "Dom da Ressurreição",
+                classe: "Concedidos",
+                descrição: `Você pode gastar uma ação completa e todos os PM que possui (mínimo 1 PM) para tocar o corpo de uma criatura morta há menos de um ano e ressuscitá-la. A criatura volta à vida com 1 PV e 0 PM, e perde 2 pontos de Constituição permanentemente. Este poder só pode ser usado uma vez em cada criatura. Apenas clérigos podem escolher este poder. Um personagem pode ter Dom da Imortalidade ou Dom da Ressurreição, mas não ambos.`
+            },
+            {
+                nome: "Dom da Verdade",
+                classe: "Concedidos",
+                descrição: `Você pode pagar 1 PM para receber +5 em testes de Intuição até o fim da cena.`
+            },
+            {
+                nome: "Escamas Dracônicas",
+                classe: "Concedidos",
+                descrição: `Você recebe +1 na Defesa.`
+            },
+            {
+                nome: "Escudo Mágico",
+                classe: "Concedidos",
+                descrição: `Quando lança uma magia, você recebe +2 na Defesa até o início do seu próximo turno.`
+            },
+            {
+                nome: "Espada Justiceira",
+                classe: "Concedidos",
+                descrição: `Você pode gastar 1 PM para encantar sua espada (ou outra arma corpo a corpo de corte que esteja empunhando). Ela recebe +1 em testes de ataque e rolagens de dano até o fim da cena.`
+            },
+            {
+                nome: "Espada Solar",
+                classe: "Concedidos",
+                descrição: `Você pode gastar 1 PM para fazer uma arma corpo a corpo de corte que esteja empunhando causar +1d6 de dano por fogo até o fim da cena.`
+            },
+            {
+                nome: "Farsa do Fingidor",
+                classe: "Concedidos",
+                descrição: `Você aprende e pode lançar Criar Ilusão.`
+            },
+            {
+                nome: "Forma de Macaco",
+                classe: "Concedidos",
+                descrição: `Você pode gastar uma ação completa e 2 PM para se transformar em um macaco. Você adquire tamanho Minúsculo (o que fornece +5 em Furtividade e –5 em testes de manobra) e recebe deslocamento de escalar 9m. Seu equipamento desaparece (e você perde seus benefícios) até você voltar ao normal, mas suas outras estatísticas não são alteradas. A transformação dura indefinidamente, mas termina caso você faça um ataque, lance uma magia ou sofra dano.`
+            },
+            {
+                nome: "Fúria Divina",
+                classe: "Concedidos",
+                descrição: `Você pode gastar 2 PM para invocar uma fúria selvagem, tornando-se temível em combate. Você recebe +2 em testes de ataque e rolagens de dano corpo a corpo, mas não pode executar nenhuma ação que exija paciência ou concentração (como usar a perícia Furtividade ou lançar magias). A Fúria Divina termina se, ao fim da rodada, você não tiver atacado nem sido alvo de um efeito hostil.`
+            },
+            {
+                nome: "Golpista Divino",
+                classe: "Concedidos",
+                descrição: `Você recebe +2 em Enganação e Ladinagem.`
+            },
+            {
+                nome: "Habitante do Deserto",
+                classe: "Concedidos",
+                descrição: `Você recebe resistência a fogo 5 e pode pagar 1 PM para criar água pura e potável suficiente para um odre (ou outro recipiente pequeno).`
+            },
+            {
+                nome: "Inimigo de Tenebra",
+                classe: "Concedidos",
+                descrição: `Seus ataques e habilidades causam +1d6 pontos de dano contra mortos-vivos.`
+            },
+            {
+                nome: "Kiai Divino",
+                classe: "Concedidos",
+                descrição: `Quando faz um ataque corpo a corpo, você pode pagar 2 PM. Se acertar o ataque, causa dano máximo.`
+            },
+            {
+                nome: "Liberdade Divina",
+                classe: "Concedidos",
+                descrição: `Você pode gastar 2 PM e uma reação para lançar Libertação com alcance pessoal e duração de 1 rodada.`
+            },
+            {
+                nome: "Manto da Penumbra",
+                classe: "Concedidos",
+                descrição: `Você aprende e pode lançar Escuridão.`
+            },
+            {
+                nome: "Mente Analítica",
+                classe: "Concedidos",
+                descrição: `Você recebe +2 em Intuição e Vontade.`
+            },
+            {
+                nome: "Mente Vazia",
+                classe: "Concedidos",
+                descrição: `Você recebe +2 em Iniciativa e Vontade.`
+            },
+            {
+                nome: "Mestre dos Mares",
+                classe: "Concedidos",
+                descrição: `Você pode falar com animais aquáticos (como o efeito da magia Voz Divina) e aprende e pode lançar Acalmar Animal, mas só contra criaturas aquáticas.`
+            },
+            {
+                nome: "Olhar Amedrontador",
+                classe: "Concedidos",
+                descrição: `Você aprende e pode lançar Amedrontar.`
+            },
+            {
+                nome: "Palavras de Bondade ",
+                classe: "Concedidos",
+                descrição: `Você aprende e pode lançar Enfeitiçar.`
+            },
+            {
+                nome: "Percepção Temporal",
+                classe: "Concedidos",
+                descrição: `Você pode gastar 3 PM para adicionar seu bônus de Sabedoria (mínimo +1, limitado por seu nível) a seus ataques, Defesa e testes de Reflexos até o fim da cena.`
+            },
+            {
+                nome: "Poder Oculto",
+                classe: "Concedidos",
+                descrição: `Você pode gastar uma ação de movimento e 2 PM para invocar a força, a rapidez ou o vigor dos loucos. Role 1d6 para receber +4 em Força (1 ou 2), Destreza (3 ou 4) ou Constituição (5 ou 6) até o fim da cena. Você pode usar este poder várias vezes, cada vez gastando uma ação de movimento e 2 PM. `
+            },
+            {
+                nome: "Presas venenosas",
+                classe: "Concedidos",
+                descrição: `Você pode gastar uma ação de movimento e 1 PM para envenenar uma arma corpo a corpo que esteja empunhando. Em caso de acerto, a arma causa 1d12 pontos de dano de veneno. A arma permanece envenenada até atingir uma criatura ou até o fim da cena, o que acontecer primeiro.`
+            },
+            {
+                nome: "Rejeição Divina",
+                classe: "Concedidos",
+                descrição: `Você recebe +5 em testes de resistência contra magias divinas.`
+            },
+            {
+                nome: "Sangue de Ferro",
+                classe: "Concedidos",
+                descrição: `Você pode pagar 2 PM para receber +2 em rolagens de dano e resistência a dano 5 até o fim da cena.`
+            },
+            {
+                nome: "Sangue Ofídico",
+                classe: "Concedidos",
+                descrição: `Você recebe resistência a veneno 5 e a CD para resistir aos seus venenos aumenta em +2.`
+            },
+            {
+                nome: "Servos do Dragão",
+                classe: "Concedidos",
+                descrição: `Você pode gastar uma ação completa e 2 PM para invocar 2d4+1 kobolds em espaços desocupados em alcance curto. Você pode usar uma ação de movimento para fazer os kobolds andarem (eles têm deslocamento 9m) ou uma ação padrão para fazê-los causar dano a criaturas adjacentes (1d6–1 pontos de dano de perfuração cada). Os kobolds têm For 8, Des 14, 1 PV, não têm valor de Defesa ou testes de resistência e falham automaticamente em qualquer teste oposto. Eles desaparecem quando morrem ou no fim da cena. Os kobolds não agem sem receber uma ordem. Usos criativos para criaturas invocadas fora de combate ficam a critério do mestre.`
+            },
+            {
+                nome: "Sorte dos loucos",
+                classe: "Concedidos",
+                descrição: `Você pode pagar 1 PM para rolar novamente um teste recém realizado. Se ainda assim falhar no teste, você perde 1d6 PM.`
+            },
+            {
+                nome: "Talento Artístico",
+                classe: "Concedidos",
+                descrição: `Você recebe +2 em Atuação e Diplomacia.`
+            },
+            {
+                nome: "Teurgista Místico",
+                classe: "Concedidos",
+                descrição: `Até uma magia de cada círculo que você aprender poderá ser escolhida entre magias divinas (se você for um conjurador arcano) ou entre magias arcanas (se for um conjurador divino). Pré-requisito: habilidade de classe Magias.`
+            },
+            {
+                nome: "Transmissão da Loucura",
+                classe: "Concedidos",
+                descrição: `Você pode lançar Sussurros Insanos (CD Car).`
+            },
+            {
+                nome: "Tropas Duyshidakk",
+                classe: "Concedidos",
+                descrição: `Você pode gastar uma ação completa e 2 PM para invocar 1d4+1 goblinoides em espaços desocupados em alcance curto. Você pode usar uma ação de movimento para fazer os goblinoides andarem (eles têm deslocamento 9m) ou uma ação padrão para fazê-los causar dano a criaturas adjacentes (1d6+1 pontos de dano de corte cada). Os goblinoides têm For 14, Des 14, 1 PV, não têm valor de Defesa ou testes de resistência e falham automaticamente em qualquer teste oposto. Eles desaparecem quando morrem ou no fim da cena. Os goblinoides não agem sem receber uma ordem. Usos criativos para criaturas invocadas fora de combate ficam a critério do mestre. `
+            },
+            {
+                nome: "Urro Divino",
+                classe: "Concedidos",
+                descrição: `Quando faz um ataque ou lança uma magia, você pode pagar 1 PM para somar seu modificador de Constituição (mínimo +1) à rolagem de dano desse ataque ou magia.`
+            },
+            {
+                nome: "Visão nas Trevas",
+                classe: "Concedidos",
+                descrição: `Você enxerga perfeitamente no escuro, incluindo em magias de escuridão.`
+            },
+            {
+                nome: "Voz da Civilização",
+                classe: "Concedidos",
+                descrição: `Você está sempre sob efeito de Compreensão.`
+            },
+            {
+                nome: "Voz da Natureza",
+                classe: "Concedidos",
+                descrição: `Você pode falar com animais (como o efeito da magia Voz Divina) e aprende e pode lançar Acalmar Animal, mas só contra animais.`
+            },
+            {
+                nome: "Voz dos Monstros ",
+                classe: "Concedidos",
+                descrição: `Você conhece os idiomas de todos os monstros inteligentes (criaturas do tipo monstro com Int 3 ou mais) e pode se comunicar livremente com monstros não inteligentes (Int 1 ou 2), como se estivesse sob efeito da magia Voz Divina.`
+            },
+            {
+                nome: "Anatomia Insana",
+                classe: "Tormenta",
+                descrição: `Você tem 25% de chance (resultado “1” em 1d4) de ignorar o dano adicional de um acerto crítico ou ataque furtivo. A chance aumenta em +25% para cada dois outros poderes da Tormenta que você possui.`
+            },
+            {
+                nome: "Antenas",
+                classe: "Tormenta",
+                descrição: `Você recebe +1 em Iniciativa, Percepção e Vontade. Este bônus aumenta em +1 para cada dois outros poderes da Tormenta que você possui.`
+            },
+            {
+                nome: "Armamento Aberrante",
+                classe: "Tormenta",
+                descrição: `Você pode gastar uma ação de movimento e 1 PM para produzir uma arma orgânica macabra — ela brota do seu braço, ombro ou costas como uma planta grotesca e então se desprende. Você pode produzir qualquer arma corpo a corpo ou de arremesso com a qual seja proficiente. O dano da arma aumenta em um passo para cada dois outros poderes da Tormenta que você possui. A arma dura pela cena, então se desfaz numa poça de gosma. Pré-requisito: outro poder da Tormenta.`
+            },
+            {
+                nome: "Articulações Flexíveis",
+                classe: "Tormenta",
+                descrição: `Você recebe +1 em Acrobacia, Furtividade e Reflexos. Este bônus aumenta em +1 para cada dois outros poderes da Tormenta que você possui.`
+            },
+            {
+                nome: "Asas Insetoides",
+                classe: "Tormenta",
+                descrição: `Você pode gastar 1 PM para receber deslocamento de voo 9m até o fim da rodada. O deslocamento aumenta em 1,5m para cada outro poder da Tormenta que você possui. Pré-requisitos: quatro outros poderes da Tormenta.`
+            },
+            {
+                nome: "Carapaça",
+                classe: "Tormenta",
+                descrição: `Sua pele é recoberta por placas quitinosas. Você recebe +1 na Defesa. Este bônus aumenta em +1 para cada dois outros poderes da Tormenta que você possui.`
+            },
+            {
+                nome: "Corpo Aberrante",
+                classe: "Tormenta",
+                descrição: `Crostas vermelhas em várias partes de seu corpo tornam seus ataques mais perigosos. Seu dano desarmado aumenta em um passo, mais um passo para cada quatro outros poderes da Tormenta que você possui. Pré-requisito: outro poder da Tormenta.`
+            },
+            {
+                nome: "Dentes Afiados",
+                classe: "Tormenta",
+                descrição: `Você recebe uma arma natural de mordida (dano 1d4, crítico x2, corte). Quando usa a ação atacar, pode gastar 1 PM para fazer um ataque corpo a corpo extra com a mordida.`
+            },
+            {
+                nome: "Empunhadura Rubra",
+                classe: "Tormenta",
+                descrição: `Você pode gastar 1 PM para cobrir suas mãos com uma carapaça rubra. Até o final da cena, você recebe +1 em Luta. Este bônus aumenta em +1 para cada dois outros poderes da Tormenta que você possui.`
+            },
+            {
+                nome: "Mãos Membranosas",
+                classe: "Tormenta",
+                descrição: `Você recebe +1 em Atletismo, Fortitude e testes de agarrar. Este bônus aumenta em +1 para cada dois outros poderes da Tormenta que você possui`
+            },
+            {
+                nome: "Membros extras",
+                classe: "Tormenta",
+                descrição: `Você possui um par de patas insetoides que saem de suas costas, ombros ou flancos. Quando usa a ação atacar, pode gastar 2 PM para fazer um ataque corpo a corpo extra com cada um (dano 1d4, crítico x2, corte). Se possuir Ambidestria ou Estilo de Duas Armas, pode empunhar armas leves em suas patas insetoides (mas ainda precisa pagar 2 PM para atacar com elas e sofre a penalidade de –2 em todos os ataques). Pré-requisitos: quatro outros poderes da Tormenta.`
+            },
+            {
+                nome: "Olhos Vermelhos",
+                classe: "Tormenta",
+                descrição: `Você recebe visão no escuro e +1 em Intimidação. Este bônus aumenta em +1 para cada dois outros poderes da Tormenta que você possui.`
+            },
+            {
+                nome: "Pele Corrompida",
+                classe: "Tormenta",
+                descrição: `Sua carne foi mesclada à matéria vermelha. Você recebe resistência a ácido, eletricidade, fogo, frio, luz e trevas 2. Esta RD aumenta em +2 para cada dois outros poderes da Tormenta que você possui.`
+            },
+            {
+                nome: "Sangue Ácido",
+                classe: "Tormenta",
+                descrição: `Quando você sofre dano por um ataque corpo a corpo, o atacante sofre 1 ponto de dano de ácido. Este dano aumenta em +1 para cada outro poder da Tormenta que você possui`
+            },
+            {
+                nome: "Visco Rubro",
+                classe: "Tormenta",
+                descrição: `Você pode gastar 1 PM para expelir um líquido escuro, grosso e corrosivo. Até o final da cena, você recebe +1 nas rolagens de dano corpo a corpo. Este bônus aumenta em +1 para cada dois outros poderes da Tormenta que você possui.`
+            },
+            {
+                nome: "Arcano de Batalha",
+                classe: "Arcanista",
+                descrição: `Você soma o bônus de seu atributo-chave nas rolagens de dano para magias e para seu Raio Arcano (caso possua).`
+            },
+            {
+                nome: "Aumento de Atributo",
+                classe: "Arcanista Bárbaro Bardo Bucaneiro Caçador Cavaleiro Clérigo Druida Guerreiro Inventor Ladino Lutador Nobre Paladino",
+                descrição: `Você recebe +2 em um atributo a sua escolha. Você pode escolher este poder várias vezes. A partir da segunda vez que escolhê-lo para o mesmo atributo, o aumento diminui para +1.`
+            },
+            {
+                nome: "Caldeirão do Bruxo.",
+                classe: "Arcanista",
+                descrição: `Você pode criar poções, como se tivesse o poder geral Preparar Poção. Se tiver ambos, você pode criar poções de 3º círculo.Pré-requisitos: Bruxo, treinado em Ofício (alquimia).`
+            },
+            {
+                nome: "Conhecimento Mágico",
+                classe: "Arcanista",
+                descrição: `Você aprende duas magias de qualquer círculo que possa lançar. Você pode escolher este poder quantas vezes quiser.`
+            },
+            {
+                nome: "Contramágica Aprimorada",
+                classe: "Arcanista",
+                descrição: `Uma vez por rodada, você pode fazer uma contramágica como uma reação (veja a página 164). Pré-requisito: Dissipar Magia.`
+            },
+            {
+                nome: "Envolto em Mistério",
+                classe: "Arcanista",
+                descrição: `Sua aparência e postura assombrosas o permitem manipular e assustar pessoas ignorantes ou supersticiosas. O mestre define o que exatamente você pode fazer e quem se encaixa nessa descrição. Como regra geral, você recebe +5 em Enganação e Intimidação contra pessoas não treinadas em Conhecimento ou Misticismo.`
+            },
+            {
+                nome: "Escriba Arcano",
+                classe: "Arcanista",
+                descrição: `Você pode aprender magias copiando os textos de pergaminhos e grimórios de outros magos. Aprender uma magia dessa forma exige um dia de trabalho e T$ 250 em matérias-primas por PM necessário para lançar a magia. Assim, aprender uma magia de 3º círculo (6 PM) exige 6 dias de trabalho e o gasto de T$ 1.500. Pré-requisitos: Mago, treinado em Conhecimento.`
+            },
+            {
+                nome: "Especialista em Escola",
+                classe: "Arcanista",
+                descrição: `Escolha uma escola de magia. A CD para resistir a suas magias dessa escola aumenta em +2. Pré-requisitos: Bruxo ou Mago.`
+            },
+            {
+                nome: "Familiar.",
+                classe: "Arcanista",
+                descrição: `Você possui um animal de estimação mágico. Veja o quadro na pagina 44 para detalhes.`
+            },
+            {
+                nome: "Fluxo de Mana",
+                classe: "Arcanista",
+                descrição: `Você pode manter dois efeitos sustentados ativos simultaneamente com apenas uma ação livre, pagando o custo de cada efeito separadamente. Pré-requisito: 10º nível de arcanista.`
+            },
+            {
+                nome: "Foco Vital",
+                classe: "Arcanista",
+                descrição: `Se você estiver segurando seu foco e sofrer dano que o levaria a 0 PV ou menos, você fica com 1 PV e o foco perde pontos de vida igual ao valor excedente, até ser destruído. Pré-requisito: Bruxo.`
+            },
+            {
+                nome: "Fortalecimento Arcano",
+                classe: "Arcanista",
+                descrição: `A CD para resistir a suas magia aumenta em +1. Se você puder lançar magias de 4º círculo, em vez disso ela aumenta em +2. Pré-requisito: 5º nível de arcanista.`
+            },
+            {
+                nome: "Herança Aprimorada",
+                classe: "Arcanista",
+                descrição: `Você recebe a herança aprimorada de sua linhagem sobrenatural. Pré-requisitos: Feiticeiro, 6º nível de arcanista.`
+            },
+            {
+                nome: "Herança Superior",
+                classe: "Arcanista",
+                descrição: `Você recebe a herança superior de sua linhagem sobrenatural. Pré-requisitos: Herança Aprimorada, 11º nível de arcanista.`
+            },
+            {
+                nome: "Magia Pungente",
+                classe: "Arcanista",
+                descrição: `Quando lança uma magia, você pode pagar 1 PM para aumentar em +2 a CD para resistir a ela.`
+            },
+            {
+                nome: "Mestre em Escola",
+                classe: "Arcanista",
+                descrição: `Escolha uma escola de magia. O custo para lançar magias dessa escola diminui em –1 PM. Pré-requisitos: Especialista em Escola com a escola escolhida, 8º nível de arcanista.`
+            },
+            {
+                nome: "Poder Mágico",
+                classe: "Arcanista",
+                descrição: `Você recebe +1 ponto de mana por nível de arcanista. Quando sobe de nível, os PM que recebe por este poder aumentam de acordo. Por exemplo, se escolher este poder no 4º nível, recebe 4 PM. Quando subir para o 5º nível, recebe +1 PM e assim por diante. Você pode escolher este poder uma segunda vez, para um total de +2 PM por nível.`
+            },
+            {
+                nome: "Raio Arcano",
+                classe: "Arcanista",
+                descrição: `Você pode gastar uma ação padrão para disparar um raio num alvo em alcance curto que causa 1d6 pontos de dano de essência. Esse dano aumenta em +1d6 para cada círculo de magia acima do 1º que você puder lançar. O alvo pode fazer um teste de Reflexos (CD atributo-chave) para reduzir o dano à metade.`
+            },
+            {
+                nome: "Raio Elemental",
+                classe: "Arcanista",
+                descrição: `Quando usa Raio Arcano, você pode pagar 1 PM para que ele cause dano de um tipo de energia a sua escolha, entre ácido, eletricidade, fogo, frio ou trevas. Se o alvo falhar no teste de Reflexos, sofre uma condição, de acordo com o tipo de energia. Veja a descrição das condições no Apêndice. Ácido: vulnerável por uma rodada. Eletricidade: ofuscado por uma rodada. Fogo: fica em chamas. Frio: lento por uma rodada. Trevas: não pode ser curado por uma rodada. Pré-requisito: Raio Arcano. `
+            },
+            {
+                nome: "Raio Poderoso",
+                classe: "Arcanista",
+                descrição: `Os dados de dano do seu Raio Arcano aumentam para d8 e o alcance dele aumenta para médio. Pré-requisito: Raio Arcano.`
+            },
+            {
+                nome: "Tinta do Mago",
+                classe: "Arcanista",
+                descrição: `Você pode criar pergaminhos, como se tivesse o poder Escrever Pergaminho. Se tiver ambos, seu custo para criar pergaminhos é reduzido à metade. Pré-requisitos: Mago, treinado em Conhecimento.`
+            },
+            {
+                nome: "Alma de Bronze",
+                classe: "Bárbaro",
+                descrição: `Quando entra em fúria, você recebe uma quantidade de pontos de vida temporários igual a metade do seu nível + mod. Força.`
+            },
+            {
+                nome: "Brado Assustador",
+                classe: "Bárbaro",
+                descrição: `Você pode gastar uma ação de movimento e 1 PM para soltar um berro feroz. Todos os inimigos em alcance curto devem fazer um teste de Vontade (CD Car). Um inimigo que falhe fica abalado até o fim da cena. Um inimigo que passe se torna imune a esta habilidade até o fim do dia.Pré-requisito: treinado em Intimidação.`
+            },
+            {
+                nome: "Crítico Brutal",
+                classe: "Bárbaro",
+                descrição: `Seu multiplicador de crítico com ataques corpo a corpo aumenta em +1. Por exemplo, se fizer um crítico com um machado de batalha, seu multiplicador será x4, em vez de x3.Pré-requisito: 6º nível de bárbaro.`
+            },
+            {
+                nome: "Destruidor",
+                classe: "Bárbaro",
+                descrição: `Quando causa dano com uma arma corpo a corpo de duas mãos, você pode rolar novamente qualquer resultado 1 ou 2 das rolagens de dano da arma. Pré-requisito: For 13.`
+            },
+            {
+                nome: "Espírito Inquebrável",
+                classe: "Bárbaro",
+                descrição: `Enquanto está em fúria, você não fica inconsciente por estar com 0 ou menos pontos de vida (você ainda morre se chegar em um valor negativo igual à metade de seus PV máximos). Pré-requisito: Alma de Bronze.`
+            },
+            {
+                nome: "Esquiva Sobrenatural",
+                classe: "Bárbaro",
+                descrição: `Seus instintos ficam tão apurados que você consegue reagir ao perigo antes que seus sentidos percebam. Você nunca fica surpreendido.`
+            },
+            {
+                nome: "Força Indomável",
+                classe: "Bárbaro",
+                descrição: `Você pode gastar 1 PM para somar seu nível em um teste de Força ou Atletismo.Você pode usar esta habilidade depois de rolar o dado, mas deve usá-la antes de o mestre dizer se você passou ou não.`
+            },
+            {
+                nome: "Frenesi",
+                classe: "Bárbaro",
+                descrição: `Se estiver em fúria e usar a ação atacar para fazer um ataque corpo a corpo, você pode gastar 2 PM para fazer um ataque adicional.`
+            },
+            {
+                nome: "Fúria da Savana",
+                classe: "Bárbaro",
+                descrição: `Seu deslocamento aumenta em +3m. Quando usa Fúria, você aplica o bônus em ataque e dano também a armas de arremesso`
+            },
+            {
+                nome: "Fúria Raivosa",
+                classe: "Bárbaro",
+                descrição: `Se sua Fúria for terminar por você não ter atacado nem sido alvo de um efeito hostil, você pode pagar 1 PM para continuar em fúria nesta rodada. Se você atacar ou for atacado na rodada seguinte, sua fúria continua normalmente.`
+            },
+            {
+                nome: "Golpe Poderoso",
+                classe: "Bárbaro",
+                descrição: `Ao acertar um ataque corpo a corpo, você pode gastar 1 PM para causar um dado de dano extra do mesmo tipo (por exemplo, com um montante, causa +1d6, para um dano total de 3d6; com um machado de guerra, causa +1d12).`
+            },
+            {
+                nome: "Ímpeto",
+                classe: "Bárbaro",
+                descrição: `Você pode gastar 1 PM para aumentar seu deslocamento em +6m por uma rodada.`
+            },
+            {
+                nome: "Investida Imprudente",
+                classe: "Bárbaro",
+                descrição: `Quando faz uma investida, você pode aumentar sua penalidade em Defesa pela investida para –5 para receber um bônus de +1d8 na rolagem de dano deste ataque.`
+            },
+            {
+                nome: "Pele de Aço",
+                classe: "Bárbaro",
+                descrição: `O bônus de Pele de Ferro aumenta para +5. Pré-requisitos: Pele de Ferro, 8º nível de bárbaro.`
+            },
+            {
+                nome: "Pele de Ferro",
+                classe: "Bárbaro",
+                descrição: `Você recebe +2 na Defesa, mas apenas se não estiver usando armadura pesada.`
+            },
+            {
+                nome: "Sangue dos Inimigos",
+                classe: "Bárbaro",
+                descrição: `Enquanto está em fúria, quando faz um acerto crítico ou reduz um inimigo a 0 PV, você recebe um bônus cumulativo de +1 em testes de ataque e rolagens de dano, limitado pelo seu nível, até o fim da cena.`
+            },
+            {
+                nome: "Superstição",
+                classe: "Bárbaro",
+                descrição: `Você odeia magia, o que faz com que seja mais resistente a ela. Você recebe resistência a magia +2.`
+            },
+            {
+                nome: "Totem Espiritual",
+                classe: "Bárbaro",
+                descrição: `Você soma seu bônus de Sabedoria no seu total de pontos de mana. Escolha um animal totêmico (veja o quadro na pagina 48). Você pode lançar uma magia definida pelo animal escolhido (atributo-chave Sabedoria). Pré-requisitos: Sab 13, 4º nível de bárbaro.`
+            },
+            {
+                nome: "Vigor Primal",
+                classe: "Bárbaro",
+                descrição: `Você pode gastar uma ação de movimento e 1 PM para recuperar 1d12 pontos de vida. Para cada 2 PM extras que você gastar, cura +1d12 PV (pode gastar 3 PM para recuperar 2d12 PV, 5 PM para recuperar 3d12 PV e assim por diante).`
+            },
+            {
+                nome: "Armadura Brilhante",
+                classe: "Nobre",
+                descrição: `Você pode somar o modificador de Carisma na Defesa quando usa armadura pesada. Se fizer isso, não pode somar o modificador de Destreza, mesmo que outras habilidades ou efeitos permitam isso. Pré-requisito: 8º nível de nobre.`
+            },
+            {
+                nome: "Autoridade Feudal",
+                classe: "Nobre",
+                descrição: `Você pode gastar 2 PM para conclamar o povo a realizar uma tarefa para você. Em termos de jogo, passa automaticamente em um teste de perícia com CD máxima igual ao seu nível +5. O tempo necessário para conclamar o povo é o tempo do uso da perícia em questão. Esta habilidade só pode ser usada em locais onde sua posição carregue alguma influência (a critério do mestre). Pré-requisito:6º nível de nobre`
+            },
+            {
+                nome: "Educação Privilegiada",
+                classe: "Nobre",
+                descrição: `Você se torna treinado em duas perícias de nobre a sua escolha.`
+            },
+            {
+                nome: "Estrategista",
+                classe: "Nobre",
+                descrição: `Você pode direcionar aliados em alcance curto. Gaste uma ação padrão e 1 PM por aliado que quiser direcionar (limitado pelo seu modificador de Carisma). No próximo turno do aliado, ele ganha uma ação de movimento. Pré-requisitos: Int 13, treinado em Guerra, 6º nível de nobre`
+            },
+            {
+                nome: "Favor",
+                classe: "Nobre",
+                descrição: `Você pode usar sua influência para pedir favores a pessoas poderosas. Pedir favores gasta 5 PM e exige pelo menos uma hora de conversa e bajulação — ou mais, de acordo com o mestre. Faça um teste de Diplomacia. A CD do teste depende do que você está pedindo: 10 para algo simples (como um convite para uma festa particular), 20 para algo caro ou complicado (como uma carona de barco até Galrasia) e 30 para algo perigoso ou ilegal (como acesso aos planos militares do reino)`
+            },
+            {
+                nome: "General",
+                classe: "Nobre",
+                descrição: `Quando você usa o poder Estrategista, os aliados direcionados recebem 1d4 pontos de mana temporários. Esses PM duram até o fim do turno do aliado e não podem ser usados em efeitos que concedam PM. Pré-requisitos: Estrategista, 12º nível de nobre`
+            },
+            {
+                nome: "Grito Tirânico",
+                classe: "Nobre",
+                descrição: `Quando usa a habilidade Palavras Afiadas, você pode gastar +2 PM. Se fizer isso, seus dados de dano aumentam para d8 e você atinge todos os inimigos em alcance curto. Pré-requisitos:Palavras Afiadas, 8º nível de nobre.`
+            },
+            {
+                nome: "Inspirar Confiança",
+                classe: "Nobre",
+                descrição: `Sua presença faz as pessoas darem o melhor de si. Você pode gastar 2 PM para fazer um aliado em alcance curto rolar novamente um teste recém realizado.`
+            },
+            {
+                nome: "Inspirar Glória",
+                classe: "Nobre",
+                descrição: `A presença de um nobre motiva as pessoas a realizarem façanhas impressionantes. Você pode gastar 5 PM para fazer um aliado em alcance curto ganhar uma ação padrão adicional no próximo turno dele. Você só pode usar esta habilidade uma vez por cena em cada aliado. Pré-requisitos: Inspirar Confiança, 8º nível de nobre.`
+            },
+            {
+                nome: "Jogo da Corte",
+                classe: "Nobre",
+                descrição: `Você pode gastar 1 PM para rolar novamente um teste recém realizado de Diplomacia,Intuição ou Nobreza.`
+            },
+            {
+                nome: "Liderar pelo Exemplo",
+                classe: "Nobre",
+                descrição: `Você pode pagar 2 PM para servir de inspiração. Até o início de seu próximo turno, sempre que você passar em um teste de perícia, aliados em alcance curto que fizerem um teste da mesma perícia podem usar o resultado total do seu teste em vez de rolar o dado. Pré-requisito: 6º nível de nobre.`
+            },
+            {
+                nome: "Língua de Ouro",
+                classe: "Nobre",
+                descrição: `Você pode gastar uma ação padrão e 6 PM para gerar o efeito da magia Enfeitiçar com os aprimoramentos de sugerir ação e afetar todas as criaturas dentro do alcance (CD Car). Esta não é uma habilidade mágica e provém de sua capacidade de influenciar outras pessoas. Pré-requisitos: Língua de Prata, 8º nível de nobre.`
+            },
+            {
+                nome: "Língua de Prata",
+                classe: "Nobre",
+                descrição: `Quando faz um teste de perícia baseada em Carisma, você pode gastar 2 PM para receber um bônus no teste igual a metade do seu nível.`
+            },
+            {
+                nome: "Língua Rápida",
+                classe: "Nobre",
+                descrição: `Quando faz um teste de Diplomacia para mudar atitude como uma ação completa, você sofre uma penalidade de –5, em vez de –10.`
+            },
+            {
+                nome: "Palavras Afiadas",
+                classe: "Nobre",
+                descrição: `Você pode gastar uma ação padrão e 1 PM para submeter a sua vontade uma criatura inteligente (Int 3 ou mais) em alcance curto. Faça um teste de Diplomacia ou Intimidação (a sua escolha) oposto ao teste de Vontade da criatura. Se vencer, você causa 2d6 pontos de dano mental não letal à criatura. Se perder, causa metade deste dano. Para cada PM extra que você gastar quando ativar o poder, o dano aumenta em +1d6. Caso a criatura seja reduzida a 0 ou menos PV, rende-se (caso você tenha usado Diplomacia) ou fica apavorada (caso tenha usado Intimidação), em vez de cair inconsciente.`
+            },
+            {
+                nome: "Presença Aristocrática",
+                classe: "Nobre",
+                descrição: `Sempre que uma criatura inteligente (Int 3 ou mais) tentar machucá-lo (causar dano com um ataque, magia ou habilidade) você pode gastar 2 PM. Se fizer isso, a criatura deve fazer um teste de Vontade (CD Car). Se falhar, não conseguirá machucá-lo e perderá a ação. Você só pode usar esta habilidade uma vez por cena contra cada criatura.`
+            },
+            {
+                nome: "Presença Majestosa",
+                classe: "Nobre",
+                descrição: `Você impõe respeito a todos. A habilidade Presença Aristocrática passa a funcionar contra criaturas com Int 1 ou mais (passa a afetar até mesmo animais, embora continue não funcionando contra criaturas sem valor de Inteligência). Além disso, você pode usá-la mais de uma vez contra uma mesma criatura na mesma cena. Pré-requisitos: Presença Aristocrática, 16º nível de nobre.`
+            },
+            {
+                nome: "Título",
+                classe: "Nobre",
+                descrição: `Você adquire um título de nobreza. Converse com o mestre para definir os benefícios exatos de seu título. Como regra geral, você recebe 10 TO por nível de nobre no início de cada aventura (rendimentos dos impostos) ou a ajuda de um aliado veterano (um membro de sua corte). Pré-requisito: Autoridade Feudal, 10º nível de nobre.`
+            },
+            {
+                nome: "Voz Poderosa",
+                classe: "Nobre",
+                descrição: `Você recebe +2 em Diplomacia e Intimidação. Suas habilidades de nobre com alcance curto passam para alcance médio.`
+            },
+            {
+                nome: "Arma Sagrada",
+                classe: "Paladino",
+                descrição: `Se estiver empunhando a arma preferida de seu deus, o dado de dano que você rola por Golpe Divino aumenta para d12. Pré-requisito: devoto de uma divindade (exceto Lena e Marah).`
+            },
+            {
+                nome: "Aura Antimagia",
+                classe: "Paladino",
+                descrição: `Enquanto sua aura estiver ativa, você e os aliados dentro da aura podem rolar novamente qualquer teste de resistência contra magia recém realizado. Pré-requisito: 14° nível de paladino.`
+            },
+            {
+                nome: "Aura Ardente",
+                classe: "Paladino",
+                descrição: `Enquanto sua aura estiver ativa, no início de cada um de seus turnos, espíritos e mortos-vivos a sua escolha dentro dela sofrem dano de luz igual a 5 + seu bônus de Carisma. Pré-requisito: 10° nível de paladino.`
+            },
+            {
+                nome: "Aura de Cura",
+                classe: "Paladino",
+                descrição: `Enquanto sua aura estiver ativa, no início de seus turnos, você e os aliados a sua escolha dentro dela curam um número de PV igual a 5 + seu bônus de Carisma. Pré-requisito: 6° nível de paladino.`
+            },
+            {
+                nome: "Aura de Invencibilidade",
+                classe: "Paladino",
+                descrição: `Enquanto sua aura estiver ativa, você ignora o primeiro dano que sofrer na cena. O mesmo se aplica a seus aliados dentro da aura. Pré-requisito: 18° nível de paladino.`
+            },
+            {
+                nome: "Aura Poderosa",
+                classe: "Paladino",
+                descrição: `O alcance da sua aura aumenta para médio. Pré-requisito: 6° nível de paladino. `
+            },
+            {
+                nome: "Fulgor Divino",
+                classe: "Paladino",
+                descrição: `Quando usa Golpe Divino, todos os inimigos em alcance curto ficam ofuscados até o início do seu próximo turno.`
+            },
+            {
+                nome: "Julgamento Divino:Arrependimento",
+                classe: "Paladino",
+                descrição: `Você pode gastar 2 PM para marcar um inimigo em alcance curto. Na próxima vez que esse inimigo acertar um ataque em você ou em um de seus aliados, deve fazer um teste de Vontade (CD Car). Se falhar, fica atordoado no próximo turno dele. Você só pode proferir este julgamento uma vez por cena contra cada criatura.`
+            },
+            {
+                nome: "Julgamento Divino: Autoridade",
+                classe: "Paladino",
+                descrição: `Você pode gastar 1 PM para comandar uma criatura em alcance curto. Faça um teste de Diplomacia oposto pelo teste de Vontade da criatura. Se você passar, ela obedece a um comando simples como “pare” ou “largue a arma”. Se a criatura passar, fica imune a esse efeito por um dia`
+            },
+            {
+                nome: "Julgamento Divino: Coragem",
+                classe: "Paladino",
+                descrição: `Você pode gastar 2 PM para inspirar coragem em uma criatura em alcance curto, incluindo você mesmo. A criatura fica imune a efeitos de medo e recebe +2 em testes de ataque contra alvos de ND maior que o nível dela.`
+            },
+            {
+                nome: "Julgamento Divino: Iluminação",
+                classe: "Paladino",
+                descrição: `Você pode marcar um inimigo em alcance curto. Quando acerta um ataque corpo a corpo nesse inimigo, você recebe 2 PM temporários. Você só pode proferir este julgamento uma vez por cena.`
+            },
+            {
+                nome: "Julgamento Divino: Justiça",
+                classe: "Paladino",
+                descrição: `Você pode gastar 2 PM para marcar um inimigo em alcance curto. A próxima vez que esse inimigo causar dano em você ou em um de seus aliados, deve fazer um teste de Vontade (CD Car). Se falhar, sofre dano de luz igual à metade do dano que causou.`
+            },
+            {
+                nome: "Julgamento Divino: Libertação",
+                classe: "Paladino",
+                descrição: `Você pode gastar 5 PM para cancelar uma condição negativa qualquer (como abalado, paralisado etc.) que esteja afetando uma criatura em alcance curto.`
+            },
+            {
+                nome: "Julgamento Divino: Salvação",
+                classe: "Paladino",
+                descrição: `Você pode gastar 2 PM para marcar um inimigo em alcance curto. Até o fim da cena, quando você acerta um ataque corpo a corpo nesse inimigo, recupera 5 pontos de vida.`
+            },
+            {
+                nome: "Julgamento Divino: Vindicação",
+                classe: "Paladino",
+                descrição: `Você pode gastar 2 PM para marcar um inimigo que tenha causado dano a você ou a seus aliados na cena. Você recebe +1 em testes de ataque e +1d8 em rolagens de dano contra o inimigo escolhido, mas sofre –5 em testes de ataque contra quaisquer outros alvos. No 5º nível, e a cada cinco níveis seguintes, você pode pagar +1 PM para aumentar o bônus de ataque em +1 e o bônus de dano em +1d8. O efeito termina caso o alvo fique inconsciente.`
+            },
+            {
+                nome: "Julgamento Divino: Zelo",
+                classe: "Paladino",
+                descrição: `Você pode gastar 1 PM para marcar um alvo em alcance longo. Pelo restante da cena, sempre que se mover na direção desse alvo, você se move com o dobro de seu deslocamento`
+            },
+            {
+                nome: "Orar",
+                classe: "Paladino",
+                descrição: `Você aprende e pode lançar uma magia divina de 1º círculo a sua escolha. Seu atributo-chave para esta magia é Sabedoria. Você pode escolher este poder quantas vezes quiser.`
+            },
+            {
+                nome: "Virtude Paladinesca: Caridade",
+                classe: "Paladino",
+                descrição: `O custo de suas habilidades de paladino que tenham um aliado como alvo é reduzido em 1 PM`
+            },
+            {
+                nome: "Virtude Paladinesca: Castidade",
+                classe: "Paladino",
+                descrição: `Você se torna imune a efeitos de encantamento e recebe +5 em testes de Intuição para perceber blefes.`
+            },
+            {
+                nome: "Virtude Paladinesca: Compaixão",
+                classe: "Paladino",
+                descrição: `Você pode usar Cura pelas Mãos em alcance curto e, para cada PM que gastar, cura 2d6+1 (em vez de 1d8+1).`
+            },
+            {
+                nome: "Virtude Paladinesca: Humildade",
+                classe: "Paladino",
+                descrição: `Na primeira rodada de um combate, você pode gastar uma ação completa para rezar e pedir orientação. Você recebe uma quantidade de PM temporários igual ao seu bônus de Carisma.`
+            },
+            {
+                nome: " Virtude Paladinesca: Temperança",
+                classe: "Paladino",
+                descrição: `Quando ingere um alimento, item alquímico ou poção, você consome apenas metade do item. Na prática, cada item desses rende duas “doses” para você.`
+            },
+
+        ]
+    };
+    const CondicaoData = {
+        listcond:[
+            {
+                nome:"Abalado",
+                desc:`O personagem sofre –2 em testes de perícia. Se ficar abalado novamente, em vez disso fica apavorado`,
+                tipo:"medo."
+            },
+            {
+                nome:"Agarrado",
+                desc:`o. O personagem fica desprevenido e imóvel, sofre –2 em testes de ataque e só pode atacar com armas leves. Um personagem fazendo um ataque à distância contra um alvo envolvido na manobra agarrar tem 50% de chance de acertar o alvo errado.`,
+                tipo:"paralisia."
+            },
+            {
+                nome:"Alquebrado",
+                desc:`O custo em pontos de mana das habilidades e magias do personagem aumenta em +1.`,
+                tipo:"mental."
+            },
+            {
+                nome:"Apavorado",
+                desc:`O personagem sofre –5 em testes de perícia e deve fugir da fonte do medo da maneira mais eficiente possível. Se não puder, poderá agir, mas não poderá se aproximar voluntariamente da fonte do medo.`,
+                tipo:"medo."
+            },
+            {
+                nome:"Atordoado",
+                desc:`O personagem fica desprevenido e não pode fazer ações.`,
+                tipo:"mental."
+            },
+            {
+                nome:"Caído",
+                desc:`Deitado no chão. O personagem sofre –5 em ataques corpo a corpo e seu deslocamento é reduzido a 1,5m. Além disso, sofre –5 de Defesa contra ataques corpo a corpo, mas recebe +5 de Defesa contra ataques à distância.`,
+                tipo:"geral"
+            },
+            {
+                nome:"Cego",
+                desc:`O personagem fica desprevenido e lento, não pode fazer testes de Percepção para observar e sofre –5 em testes de perícias baseadas em Força ou Destreza. Todos os alvos de seus ataques recebem camuflagem total.`,
+                tipo:"sentidos."
+            },
+            {
+                nome:"Confuso",
+                desc:`O personagem comporta-se de modo aleatório. Role 1d6 no início de seus turnos: 1) Movimenta-se em uma direção escolhida por uma rolagem de 1d8; 2-3) Não pode fazer ações, exceto reações, e fica balbuciando incoerentemente; 4-5) Usa a arma que estiver empunhando para atacar a criatura mais próxima, ou a si mesmo se estiver sozinho (nesse caso, apenas role o dano); 6) A condição termina e pode agir normalmente.`,
+                tipo:"mental."
+            },
+            {
+                nome:"Debilitado",
+                desc:`O personagem sofre –5 em testes de atributos físicos (Força, Destreza e Constituição) e de perícias baseadas nesses atributos. Se o personagem ficar debilitado novamente, em vez disso fica inconsciente.`,
+                tipo:"geral"
+            },
+            {
+                nome:"Desprevenido",
+                desc:`Despreparado para reagir. O personagem sofre –5 na Defesa e em Reflexos. Você fica desprevenido contra inimigos que não possa ver.`,
+                tipo:"geral"
+            },
+            {
+                nome:"Doente",
+                desc:`Sob efeito de uma doença.`,
+                tipo:"geral"
+            },
+            {
+                nome:"Em Chamas",
+                desc:`O personagem está pegando fogo. No início de seus turnos, sofre 1d6 pontos de dano de fogo. O personagem pode gastar uma ação padrão para apagar o fogo com as mãos. Imersão em água também apaga as chamas.`,
+                tipo:"geral"
+            },
+            {
+                nome:"Enjoado",
+                desc:`O personagem só pode realizar uma ação padrão ou de movimento (não ambas) por rodada. Ele pode gastar uma ação padrão para fazer uma investida, mas pode avançar no máximo seu deslocamento (e não o dobro).`,
+                tipo:"geral"
+            },
+            {
+                nome:"Enredado",
+                desc:`O personagem fica lento, vulnerável e sofre –2 em testes de ataque.`,
+                tipo:"paralisia."
+            },
+            {
+                nome:"Envenenado",
+                desc:`O efeito desta condição varia de acordo com o veneno. Pode ser outra condição (por exemplo, fraco ou enjoado) ou dano recorrente (por exemplo, 1d12 pontos de dano por rodada). A descrição do veneno determina a duração dele (caso nada seja dito, a condição dura pela cena).`,
+                tipo:"geral"
+            },
+            {
+                nome:"Esmorecido",
+                desc:`O personagem sofre –5 em testes de atributos mentais (Inteligência, Sabedoria e Carisma) e de perícias baseadas nesses atributos.`,
+                tipo:"mental."
+            },
+            {
+                nome:"Exausto",
+                desc:`O personagem fica debilitado, lento e vulnerável. Se ficar exausto novamente, em vez disso fica inconsciente.`,
+                tipo:"fadiga"
+            },
+            {
+                nome:"Fascinado",
+                desc:`Com a atenção presa em alguma coisa. O personagem sofre –5 em Percepção e não pode fazer ações, exceto observar aquilo que o fascinou. Qualquer ação hostil contra o personagem anula esta condição. Balançar uma criatura fascinada para tirá-la desse estado gasta uma ação padrão.`,
+                tipo:"mental."
+            },
+            {
+                nome:"Fatigado",
+                desc:`O personagem fica fraco e vulnerável. Se o personagem ficar fatigado novamente, em vez disso fica exausto.`,
+                tipo:"fadiga."
+            },
+            {
+                nome:"Fraco",
+                desc:`O personagem sofre –2 em testes de atributos físicos (Força, Destreza e Constituição) e de perícias baseadas nesses atributos. Se ficar fraco novamente, em vez disso fica debilitado.`,
+                tipo:"geral"
+            },
+            {
+                nome:"Frustrado",
+                desc:`O personagem sofre –2 em testes de atributos mentais (Inteligência, Sabedoria e Carisma) e de perícias baseadas nesses atributos. Se ficar frustrado novamente, em vez disso fica esmorecido.`,
+                tipo:"mental."
+            },
+            {
+                nome:"Imóvel",
+                desc:`Todas as formas de deslocamento do personagem são reduzidas a 0m.`,
+                tipo:"paralisia."
+            },
+            {
+                nome:"Inconsciente",
+                desc:`O personagem fica indefeso e não pode fazer ações. Balançar uma criatura para acordá-la gasta uma ação padrão.`,
+                tipo:"geral"
+            },
+            {
+                nome:"Indefeso",
+                desc:`O personagem é considerado desprevenido, mas sofre –10 na Defesa, falha automaticamente em testes de Reflexos e pode sofrer golpes de misericórdia.`,
+                tipo:"geral"
+            },
+            {
+                nome:"Lento",
+                desc:`Todas as formas de deslocamento do personagem são reduzidas à metade (arredonde para baixo para o primeiro incremento de 1,5m) e ele não pode correr ou fazer investidas. `,
+                tipo:"paralisia."
+            },
+            {
+                nome:"Ofuscado",
+                desc:`O personagem sofre –2 em testes de ataque e de Percepção.`,
+                tipo:"sentidos."
+            },
+            {
+                nome:"Paralisado",
+                desc:`O personagem fica imóvel e indefeso e só pode realizar ações puramente mentais.`,
+                tipo:"paralisia."
+            },
+            {
+                nome:"Pasmo",
+                desc:`O personagem não pode fazer ações, exceto reações.`,
+                tipo:"mental."
+            },
+            {
+                nome:"Petrificado",
+                desc:`O personagem fica inconsciente e recebe resistência a dano 8.`,
+                tipo:"geral"
+            },
+            {
+                nome:"Sangrando",
+                desc:`Com um ferimento aberto. No início de seus turnos, o personagem deve fazer um teste de Constituição (CD 15). Se passar, estabiliza e remove essa condição. Se falhar, sofre 1d6 pontos de dano e continua sangrando.`,
+                tipo:"geral"
+            },
+            {
+                nome:"Surdo",
+                desc:`O personagem não pode fazer testes de Percepção para ouvir e sofre –5 em testes de Iniciativa. Além disso, é considerado em condição ruim para lançar magias.`,
+                tipo:"sentidos."
+            },
+            {
+                nome:"Surpreendido",
+                desc:` Não ciente de seus inimigos. O personagem fica desprevenido e não pode fazer ações, exceto reações.`,
+                tipo:"geral"
+            },
+            {
+                nome:"Vulnerável",
+                desc:`O personagem sofre –2 na Defesa.`,
+                tipo:"geral"
+            },
+        ]
+    }
+      await CriarJSON.Escrever("./database/json/T20Magia.json", Magiadata);
+  //  await CriarJSON.Escrever("./database/json/t20poderes.json", Poderesdata);
+ //  await CriarJSON.Escrever("./database/json/t20condicao.json", CondicaoData);
+    console.log("json criado") 
 
 
 }
+
 
 CriarJSON()
 // magia molde
@@ -2804,6 +4062,20 @@ CriarJSON()
                     resitencia: ""
                 },
                 desc: ``,
-                custo: ``
+                continue:[{nome:'Descrição', content:''}, {nome:'Custo', content:''}]
             },
 */
+// poder molde
+/*
+ {
+                nome: "",
+                classe: "Paladino",
+                descrição: ``
+            },
+
+{
+    nome:"",
+    desc:``,
+    tipo:""
+},
+             */

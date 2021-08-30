@@ -2,13 +2,12 @@ require('dotenv/config');
 
 const Discord = require('discord.js');
 const prefix = process.env.PREFIX;
-const fs = require('fs');
-const Read = require("./util/Reader");
 const client = new Discord.Client();
-const Arithmetic = require('./util/Arithmetics');
-const Reader = new Read();
+
 const cardsData = require("./database/json/cardsdata.json");
 const T20MagiasData = require("./database/json/T20Magia.json");
+const T20PoderesData = require("./database/json/t20poderes.json");
+const T20condicaoData = require("./database/json/t20condicao.json");
 console.log('oi');
 
 
@@ -49,12 +48,109 @@ client.on('message', async message => {
                 .addFields(
                     { name: 'Meta', value: meta },
                     { name: '\r\nDescrição', value: result[0].desc },
-                    { name: '\r\nCusto variavel', value: result[0].custo },
+                    
                 );
-            message.channel.send(msg)
+            message.channel.send(msg);
+            if(result[0].continue.length > 0){
+                result[0].continue.forEach(data =>{
+                    const msg = new Discord.MessageEmbed()
+                    .setColor('#RANDOM')
+                    .setTitle('Continuação de '+result[0].meta.nome)
+                    .addFields(
+                        
+                        { name: data.nome, value: data.content },
+                        
+                    );
+                    message.channel.send(msg);
+                })
+                
+
+            }
             return;
 
         }
+
+        if (msgContent.split(" ")[1] === "-p") {
+            const poderes = T20PoderesData.podereslist;
+            let word = msgContent.split("-p")[1].replace(/[^a-zA-Z ]| /g, "").toLowerCase();
+            let result = poderes.filter(poderes => {
+                let poderesNome = poderes.nome.replace(/[^a-zA-Z ]| /g, "").toLowerCase();
+                let res = poderesNome.indexOf(word);
+                return res === 0;
+            });
+            if (result.length === 0) {
+                message.channel.send("nenhum poder encontrado");
+                return;
+            }
+            const msg = new Discord.MessageEmbed()
+                .setColor('#RANDOM')
+                .setTitle(result[0].nome)
+                .addFields(
+                    { name: 'Poder', value: result[0].classe },
+                    { name: '\r\nDescrição', value: result[0].descrição },
+
+                );
+            message.channel.send(msg);
+            return;
+        }
+        if (msgContent.split(" ")[1] === "-lp") {
+            const poderes = T20PoderesData.podereslist;
+            let word = msgContent.split("-lp")[1].replace(/[^a-zA-Z ]| /g, "").toLowerCase();
+            let result = poderes.filter(poderes => {
+                let poderesNome = poderes.classe.replace(/[^a-zA-Z ]| /g, "").toLowerCase();
+                let res = poderesNome.indexOf(word);
+                return res === 0;
+            });
+            if (result.length === 0) {
+                message.channel.send("nenhum poder encontrado");
+                return;
+            };
+            let list = "";
+            result.forEach(poder => list += '\r\n'+ poder.nome);
+            message.channel.send(`lista de poderes:${list}`);
+            return;
+        };
+
+        if (msgContent.split(" ")[1] === "-c") {
+            const condicao = T20condicaoData.listcond;
+            let word = msgContent.split("-c")[1].replace(/[^a-zA-Z ]| /g, "").toLowerCase();
+            let result = condicao.filter(condicao => {
+                let condicaoNome = condicao.nome.replace(/[^a-zA-Z ]| /g, "").toLowerCase();
+                let res = condicaoNome.indexOf(word);
+                return res === 0;
+            });
+            if (result.length === 0) {
+                message.channel.send("nenhum condição encontrada");
+                return;
+            }
+            const msg = new Discord.MessageEmbed()
+                .setColor('#RANDOM')
+                .setTitle(result[0].nome)
+                .addFields(
+                    { name: 'Tipo', value: result[0].tipo },
+                    { name: '\r\nDescrição', value: result[0].desc },
+
+                );
+            message.channel.send(msg);
+            return;
+        };
+        if (msgContent.split(" ")[1] === "-lc") {
+            const condicao = T20condicaoData.listcond;
+            let word = msgContent.split("-lc")[1].replace(/[^a-zA-Z ]| /g, "").toLowerCase();
+            let result = condicao.filter(condicao => {
+                let condicaotipo = condicao.tipo.replace(/[^a-zA-Z ]| /g, "").toLowerCase();
+                let res = condicaotipo.indexOf(word);
+                return res === 0;
+            });
+            if (result.length === 0) {
+                message.channel.send("nenhuma condição encontrada");
+                return;
+            };
+            let list = "";
+            result.forEach(condicao => list += '\r\n'+ condicao.nome);
+            message.channel.send(`lista de condição:${list}`);
+            return;
+        };
     }
 
     if (msgContent.split(" ")[0] === prefix + "carta") {
@@ -200,6 +296,6 @@ ${Emoji}${Emoji}${Emoji}
 });
 
 
-console.log('oi');
+
 
 client.login(process.env.BOT_TOKEN);
